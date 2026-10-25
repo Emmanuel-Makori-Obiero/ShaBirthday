@@ -1131,6 +1131,16 @@ body {
     font-family: 'Poppins', sans-serif;
     color: #fff;
 }
+.background-music{
+    position: relative;
+    z-index: 5;
+    width: min(92vw, 420px);
+    margin: 12px auto 18px;
+    padding: 10px 14px;
+    border-radius: 14px;
+    background: rgb(255, 120, 130, 0.9);
+    border: 3px solid var(--color-black);
+}
 .music-player label{
     font-size: .9rem;
     font-weight: 600;

@@ -106,6 +106,21 @@
           </div>
         </div>
       </div>
+      <div class="music-player background-music">
+        <label for="song-select">Birthday music</label>
+        <select id="song-select">
+          <option value="./audios/Birthday%20Prayer%20-%20Godswill%20James%20_%20Official%20Video%20%23birthdaysong%20-%20%28320%20Kbps%29.mp3">
+            Birthday Prayer — Godswill James
+          </option>
+          <option value="./audios/SWEETER%20AS%20THE%20YEARS%20GO%20BY%20Hymn%20Lyrics%20Words%20text%20trending%20Birthday%20days%20sing%20along%20song%20music%20-%20%28320%20Kbps%29.mp3">
+            Sweeter As the Years Go By
+          </option>
+        </select>
+        <audio id="birthday-audio" controls preload="metadata">
+          <source src="./audios/Birthday%20Prayer%20-%20Godswill%20James%20_%20Official%20Video%20%23birthdaysong%20-%20%28320%20Kbps%29.mp3" type="audio/mpeg" />
+          Your browser does not support audio playback.
+        </audio>
+      </div>
       <div class="decorate_star star1" style="--t: 15s"></div>
       <div class="decorate_star star2" style="--t: 15.2s"></div>
       <div class="decorate_star star3" style="--t: 15.4s"></div>
@@ -150,21 +165,6 @@
                 Happy birthday from Mum, Dad, Phanice, Ima, Mordecai, and the
                 whole family! 🎉
               </p>
-              <div class="music-player">
-                <label for="song-select">Birthday music</label>
-                <select id="song-select">
-                  <option value="./audios/Birthday%20Prayer%20-%20Godswill%20James%20_%20Official%20Video%20%23birthdaysong%20-%20%28320%20Kbps%29.mp3">
-                    Birthday Prayer — Godswill James
-                  </option>
-                  <option value="./audios/SWEETER%20AS%20THE%20YEARS%20GO%20BY%20Hymn%20Lyrics%20Words%20text%20trending%20Birthday%20days%20sing%20along%20song%20music%20-%20%28320%20Kbps%29.mp3">
-                    Sweeter As the Years Go By
-                  </option>
-                </select>
-                <audio id="birthday-audio" controls preload="metadata">
-                  <source src="./audios/Birthday%20Prayer%20-%20Godswill%20James%20_%20Official%20Video%20%23birthdaysong%20-%20%28320%20Kbps%29.mp3" type="audio/mpeg" />
-                  Your browser does not support audio playback.
-                </audio>
-              </div>
               <h2>
                 Happy Birthday to my amazing sister! ❤️🎉🥳 Today, I just want
                 to thank God for the gift of having you in my life. Thank you
@@ -304,6 +304,15 @@
         // The visible audio controls remain available if the browser blocks autoplay.
       });
     }
+
+    function startBackgroundMusic() {
+      birthdayAudio.play().catch(function () {
+        // The visible play button remains available if the browser blocks autoplay.
+      });
+      document.removeEventListener("pointerdown", startBackgroundMusic);
+    }
+
+    document.addEventListener("pointerdown", startBackgroundMusic);
 
     mailBox.onclick = openBirthdayCard;
     birthdayCard.addEventListener("click", openBirthdayCard);
