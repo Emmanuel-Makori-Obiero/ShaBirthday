@@ -323,6 +323,15 @@
       clearTimeout(musicTimer);
     });
 
+    birthdayVideo.addEventListener("play", function () {
+      clearTimeout(musicTimer);
+      birthdayAudio.pause();
+    });
+
+    birthdayAudio.addEventListener("play", function () {
+      birthdayVideo.pause();
+    });
+
     function openBirthdayCard() {
       boxmail.classList.add("active");
       birthdayAudio.play().catch(function () {
