@@ -68,7 +68,7 @@
           </div>
         </div>
         <div class="right">
-          <div class="box__account">
+          <div class="box__account" role="button" tabindex="0" aria-label="Open Sharon's birthday card">
             <div class="image">
               <img src="./images/unnamed.jpeg" alt="" />
             </div>
@@ -161,8 +161,8 @@
                 the work of your hands, and grant you the desires of your heart.
                 🙏❤️ You deserve all the beautiful things life has to offer.
                 Happy Birthday once again, sis! Thank you for being you, and
-                thank you for the impact you continue to have on my life. I love
-                and appreciate you so much! ❤️🎂🎉
+                thank you for the impact you continue to have on my life. I
+                appreciate you so much! ❤️🎂🎉
               </h2>
 
               <div class="imageCute2">
@@ -263,15 +263,31 @@
     });
 
     let mailBox = document.querySelector(".mail");
+    let birthdayCard = document.querySelector(".box__account");
     let boxmail = document.querySelector(".boxMail");
+    let cardContainer = document.querySelector(".boxMail-container");
     var close = document.querySelector(".fa-xmark");
-    mailBox.onclick = function () {
-      mailBox.classList.toggle("active");
+
+    function openBirthdayCard() {
       boxmail.classList.add("active");
-    };
+    }
+
+    mailBox.onclick = openBirthdayCard;
+    birthdayCard.addEventListener("click", openBirthdayCard);
+    birthdayCard.addEventListener("keydown", function (event) {
+      if (event.key === "Enter" || event.key === " ") {
+        event.preventDefault();
+        openBirthdayCard();
+      }
+    });
+
+    cardContainer.addEventListener("click", function () {
+      cardContainer.classList.add("is-open");
+    });
 
     close.addEventListener("click", function () {
       boxmail.classList.remove("active");
+      cardContainer.classList.remove("is-open");
     });
   </script>
 </html>
