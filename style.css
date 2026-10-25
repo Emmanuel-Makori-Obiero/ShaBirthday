@@ -1122,6 +1122,34 @@ body {
     font-weight: bold;
     color: #fff;
 }
+.music-player{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    margin: 0 20px 14px;
+    font-family: 'Poppins', sans-serif;
+    color: #fff;
+}
+.music-player label{
+    font-size: .9rem;
+    font-weight: 600;
+}
+.music-player select,
+.music-player audio{
+    width: min(92%, 360px);
+}
+.music-player select{
+    padding: 6px 8px;
+    border: 0;
+    border-radius: 6px;
+    background: #fff;
+    color: #333;
+    font: inherit;
+}
+.music-player audio{
+    height: 38px;
+}
 .birthday-video{
     display: block;
     width: min(190px, 72%);
@@ -1204,6 +1232,15 @@ body {
     .family-greeting{
         margin: 8px 22px 12px;
         font-size: 1.25rem;
+    }
+
+    .music-player{
+        margin: 0 18px 16px;
+    }
+
+    .music-player select,
+    .music-player audio{
+        width: 100%;
     }
 
     .birthday-video{
