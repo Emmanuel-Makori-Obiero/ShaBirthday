@@ -3,8 +3,13 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="title" content="Happy Birthday Website 2.0 | Aoudumber Bade" />
-    <meta name="github" content="https://github.com/Aoudumber-Bade" />
+    <meta name="title" content="Sharon's Birthday" />
+    <meta property="og:title" content="Sharon's Birthday" />
+    <meta property="og:description" content="A special birthday celebration for Sharon from her family." />
+    <meta property="og:type" content="website" />
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content="Sharon's Birthday" />
+    <meta name="twitter:description" content="A special birthday celebration for Sharon from her family." />
     <title>Sharon's Birthday</title>
     <link rel="stylesheet" href="style.css" />
     <link
@@ -110,6 +115,21 @@
             <i class="fa-solid fa-heart"></i>
           </div>
         </div>
+      </div>
+      <div class="music-player background-music">
+        <label for="song-select">Birthday music</label>
+        <select id="song-select">
+          <option value="./audios/SWEETER%20AS%20THE%20YEARS%20GO%20BY%20Hymn%20Lyrics%20Words%20text%20trending%20Birthday%20days%20sing%20along%20song%20music%20-%20%28320%20Kbps%29.mp3">
+            Sweeter As the Years Go By
+          </option>
+          <option value="./audios/Birthday%20Prayer%20-%20Godswill%20James%20_%20Official%20Video%20%23birthdaysong%20-%20%28320%20Kbps%29.mp3">
+            Birthday Prayer — Godswill James
+          </option>
+        </select>
+        <audio id="birthday-audio" controls preload="metadata">
+          <source src="./audios/SWEETER%20AS%20THE%20YEARS%20GO%20BY%20Hymn%20Lyrics%20Words%20text%20trending%20Birthday%20days%20sing%20along%20song%20music%20-%20%28320%20Kbps%29.mp3" type="audio/mpeg" />
+          Your browser does not support audio playback.
+        </audio>
       </div>
       <div class="decorate_star star1" style="--t: 15s"></div>
       <div class="decorate_star star2" style="--t: 15.2s"></div>
@@ -288,11 +308,55 @@
     let birthdayCard = document.querySelector(".box__account");
     let boxmail = document.querySelector(".boxMail");
     let cardContainer = document.querySelector(".boxMail-container");
+    let birthdayVideo = document.querySelector(".birthday-video");
+    let birthdayAudio = document.querySelector("#birthday-audio");
+    let songSelect = document.querySelector("#song-select");
+    let musicTimer;
+    const sweeterSong = songSelect.options[0].value;
+    const birthdayPrayerSong = songSelect.options[1].value;
     var close = document.querySelector(".fa-xmark");
+
+    function scheduleNextSong() {
+      clearTimeout(musicTimer);
+      if (songSelect.value === sweeterSong && !birthdayAudio.paused) {
+        musicTimer = setTimeout(function () {
+          songSelect.value = birthdayPrayerSong;
+          birthdayAudio.src = birthdayPrayerSong;
+          birthdayAudio.load();
+          birthdayAudio.play().catch(function () {});
+        }, 50000);
+      }
+    }
+
+    birthdayAudio.addEventListener("play", scheduleNextSong);
+    birthdayAudio.addEventListener("pause", function () {
+      clearTimeout(musicTimer);
+    });
+
+    birthdayVideo.addEventListener("play", function () {
+      clearTimeout(musicTimer);
+      birthdayAudio.pause();
+    });
+
+    birthdayAudio.addEventListener("play", function () {
+      birthdayVideo.pause();
+    });
 
     function openBirthdayCard() {
       boxmail.classList.add("active");
+      birthdayAudio.play().catch(function () {
+        // The visible audio controls remain available if the browser blocks autoplay.
+      });
     }
+
+    function startBackgroundMusic() {
+      birthdayAudio.play().catch(function () {
+        // The visible play button remains available if the browser blocks autoplay.
+      });
+      document.removeEventListener("pointerdown", startBackgroundMusic);
+    }
+
+    document.addEventListener("pointerdown", startBackgroundMusic);
 
     mailBox.onclick = openBirthdayCard;
     birthdayCard.addEventListener("click", openBirthdayCard);
@@ -307,9 +371,33 @@
       cardContainer.classList.add("is-open");
     });
 
+    songSelect.addEventListener("change", function () {
+      clearTimeout(musicTimer);
+      birthdayAudio.src = songSelect.value;
+      birthdayAudio.load();
+      birthdayAudio.play().catch(function () {});
+    });
+
+    function stopAllMedia() {
+      clearTimeout(musicTimer);
+      birthdayVideo.pause();
+      birthdayVideo.currentTime = 0;
+      birthdayAudio.pause();
+      birthdayAudio.currentTime = 0;
+    }
+
+    document.addEventListener("visibilitychange", function () {
+      if (document.hidden) {
+        stopAllMedia();
+      }
+    });
+    window.addEventListener("pagehide", stopAllMedia);
+    window.addEventListener("beforeunload", stopAllMedia);
+
     close.addEventListener("click", function () {
       boxmail.classList.remove("active");
       cardContainer.classList.remove("is-open");
+      stopAllMedia();
     });
   </script>
 </html>
