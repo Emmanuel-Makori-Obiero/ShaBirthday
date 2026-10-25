@@ -324,13 +324,25 @@
       birthdayAudio.play().catch(function () {});
     });
 
-    close.addEventListener("click", function () {
-      boxmail.classList.remove("active");
-      cardContainer.classList.remove("is-open");
+    function stopAllMedia() {
       birthdayVideo.pause();
       birthdayVideo.currentTime = 0;
       birthdayAudio.pause();
       birthdayAudio.currentTime = 0;
+    }
+
+    document.addEventListener("visibilitychange", function () {
+      if (document.hidden) {
+        stopAllMedia();
+      }
+    });
+    window.addEventListener("pagehide", stopAllMedia);
+    window.addEventListener("beforeunload", stopAllMedia);
+
+    close.addEventListener("click", function () {
+      boxmail.classList.remove("active");
+      cardContainer.classList.remove("is-open");
+      stopAllMedia();
     });
   </script>
 </html>
