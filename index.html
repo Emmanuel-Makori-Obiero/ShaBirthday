@@ -109,15 +109,15 @@
       <div class="music-player background-music">
         <label for="song-select">Birthday music</label>
         <select id="song-select">
-          <option value="./audios/Birthday%20Prayer%20-%20Godswill%20James%20_%20Official%20Video%20%23birthdaysong%20-%20%28320%20Kbps%29.mp3">
-            Birthday Prayer — Godswill James
-          </option>
           <option value="./audios/SWEETER%20AS%20THE%20YEARS%20GO%20BY%20Hymn%20Lyrics%20Words%20text%20trending%20Birthday%20days%20sing%20along%20song%20music%20-%20%28320%20Kbps%29.mp3">
             Sweeter As the Years Go By
           </option>
+          <option value="./audios/Birthday%20Prayer%20-%20Godswill%20James%20_%20Official%20Video%20%23birthdaysong%20-%20%28320%20Kbps%29.mp3">
+            Birthday Prayer — Godswill James
+          </option>
         </select>
         <audio id="birthday-audio" controls preload="metadata">
-          <source src="./audios/Birthday%20Prayer%20-%20Godswill%20James%20_%20Official%20Video%20%23birthdaysong%20-%20%28320%20Kbps%29.mp3" type="audio/mpeg" />
+          <source src="./audios/SWEETER%20AS%20THE%20YEARS%20GO%20BY%20Hymn%20Lyrics%20Words%20text%20trending%20Birthday%20days%20sing%20along%20song%20music%20-%20%28320%20Kbps%29.mp3" type="audio/mpeg" />
           Your browser does not support audio playback.
         </audio>
       </div>
@@ -296,7 +296,27 @@
     let birthdayVideo = document.querySelector(".birthday-video");
     let birthdayAudio = document.querySelector("#birthday-audio");
     let songSelect = document.querySelector("#song-select");
+    let musicTimer;
+    const sweeterSong = songSelect.options[0].value;
+    const birthdayPrayerSong = songSelect.options[1].value;
     var close = document.querySelector(".fa-xmark");
+
+    function scheduleNextSong() {
+      clearTimeout(musicTimer);
+      if (songSelect.value === sweeterSong && !birthdayAudio.paused) {
+        musicTimer = setTimeout(function () {
+          songSelect.value = birthdayPrayerSong;
+          birthdayAudio.src = birthdayPrayerSong;
+          birthdayAudio.load();
+          birthdayAudio.play().catch(function () {});
+        }, 50000);
+      }
+    }
+
+    birthdayAudio.addEventListener("play", scheduleNextSong);
+    birthdayAudio.addEventListener("pause", function () {
+      clearTimeout(musicTimer);
+    });
 
     function openBirthdayCard() {
       boxmail.classList.add("active");
@@ -328,12 +348,14 @@
     });
 
     songSelect.addEventListener("change", function () {
+      clearTimeout(musicTimer);
       birthdayAudio.src = songSelect.value;
       birthdayAudio.load();
       birthdayAudio.play().catch(function () {});
     });
 
     function stopAllMedia() {
+      clearTimeout(musicTimer);
       birthdayVideo.pause();
       birthdayVideo.currentTime = 0;
       birthdayAudio.pause();
